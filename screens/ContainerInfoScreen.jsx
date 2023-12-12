@@ -1,8 +1,8 @@
-import { View, Text } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect } from 'react';
 import { resetContainer, setContainer } from '../store/containerSlice';
-import { axiosAPI } from '../api';
+import { getContainer } from '../api';
 
 export default function DeviceScreen({ route }) {
     const { uuid } = route.params;
@@ -10,17 +10,27 @@ export default function DeviceScreen({ route }) {
     const { container } = useSelector((store) => store.container);
 
     useEffect(() => {
-        async function getOneContainer() {
-            await axiosAPI.get(`/containers/${uuid}`).then((response) => dispatch(setContainer(response?.data)));
-        }
-        getOneContainer();
+        getContainer(uuid).then(data => dispatch(setContainer(data)))
+
         return () => {
             dispatch(resetContainer());
         };
     }, [dispatch]);
     return (
-        <View>
-            <Text>{container.marking}</Text>
-        </View>
+        <View style={styles.ViewContent}>
+            {container ? (
+                <Text>{container.marking}</Text>
+            ) : (
+                <ActivityIndicator size="large" color="#ffffff" />
+            )}
+        </View >
     );
 }
+
+const styles = StyleSheet.create({
+    ViewContent: {
+        flexGrow: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+});

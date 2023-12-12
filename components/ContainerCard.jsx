@@ -6,7 +6,6 @@ const placeholder = require(`../assets/placeholder.jpg`)
 
 export default function ContainerCard({ navigation, ...props }) {
     const [src, setSrc] = useState({ uri: `${imageBaseURL}/${props.uuid}.jpg`});
-    console.log(src)
 
     const handlePress = () => {
         navigation.navigate('ContainerInfo', { uuid: props.uuid });

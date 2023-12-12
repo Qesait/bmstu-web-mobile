@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     containers: [],
-    container: {}
+    container: undefined
 };
 
 export const containerSlice = createSlice({
@@ -19,7 +19,7 @@ export const containerSlice = createSlice({
         },
         resetContainer: (state) => {
             console.log('resetContainer');
-            state.container = {};
+            state.container = undefined;
         },
     },
 });
