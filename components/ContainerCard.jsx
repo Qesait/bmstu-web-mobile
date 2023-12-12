@@ -8,7 +8,7 @@ export default function ContainerCard({ navigation, ...props }) {
     const [src, setSrc] = useState({ uri: `${imageBaseURL}/${props.uuid}.jpg`});
 
     const handlePress = () => {
-        navigation.navigate('ContainerInfo', { uuid: props.uuid });
+        navigation.navigate('ContainerInfo', { uuid: props.uuid, marking: props.marking });
     };
 
     return (

@@ -12,8 +12,16 @@ export default function App() {
         <Provider store={store}>
             <NavigationContainer>
                 <Stack.Navigator>
-                    <Stack.Screen name='ContainersList' component={ContainersListScreen} />
-                    <Stack.Screen name='ContainerInfo' component={ContainerInfoScreen} />
+                    <Stack.Screen
+                        name='ContainersList'
+                        component={ContainersListScreen}
+                        options={{ title: 'Список контейнеров' }}
+                    />
+                    <Stack.Screen
+                        name='ContainerInfo'
+                        component={ContainerInfoScreen}
+                        options={({ route }) => ({ title: route.params.marking || 'Информация о контейнере' })}
+                    />
                 </Stack.Navigator>
             </NavigationContainer>
         </Provider>
