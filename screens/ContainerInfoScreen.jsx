@@ -1,9 +1,10 @@
-import { View, Text, ActivityIndicator, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { resetContainer, setContainer } from '../store/containerSlice';
 import { getContainer, imageBaseURL } from '../api';
 import { commonStyles } from '../styles/common'
+import Spinner from '../components/Spinner';
 
 const placeholder = require(`../assets/placeholder.jpg`)
 
@@ -60,9 +61,7 @@ export default function DeviceScreen({ navigation, route }) {
                     </View>
                 </View>
             ) : (
-                <View style={styles.ActivityWrapper}>
-                    <ActivityIndicator size="large" color="#212529" />
-                </View >
+                <Spinner />
             )}
         </View >
     );
@@ -73,11 +72,6 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         alignItems: 'stretch',
         padding: 10,
-    },
-    ActivityWrapper: {
-        flexGrow: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
     },
     card: {
         display: 'flex',

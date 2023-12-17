@@ -2,17 +2,18 @@ import { ScrollView, StyleSheet, View, ActivityIndicator, TextInput, TouchableOp
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { getAllContainers } from '../api';
-import { setContainers } from '../store/containerSlice';
+import { setContainers, setSearch } from '../store/containerSlice';
 import ContainerCard from '../components/ContainerCard';
+import Spinner from '../components/Spinner';
 import { commonStyles } from '../styles/common'
 
 export default function ContainersListScreen({ navigation }) {
     const dispatch = useDispatch();
     const { containers } = useSelector((store) => store.container);
-    const [searchText, setSearchText] = useState('');
+    const { searchText } = useSelector((store) => store.container);
 
     useEffect(() => {
-        getAllContainers().then(data => {
+        getAllContainers(searchText).then(data => {
             dispatch(setContainers(data?.containers))
         })
     }, [dispatch]);
@@ -31,7 +32,7 @@ export default function ContainersListScreen({ navigation }) {
                     style={[styles.input, commonStyles.rounded_sm, commonStyles.shadow_sm]}
                     placeholder="Тип контейнера"
                     value={searchText}
-                    onChangeText={(text) => setSearchText(text)}
+                    onChangeText={(text) => dispatch(setSearch(text))}
                     placeholderTextColor={'#aeb2b6'}
                     onSubmitEditing={handleSearch}
                 />
@@ -42,7 +43,7 @@ export default function ContainersListScreen({ navigation }) {
             {containers && containers.length > 0 ? (
                 containers.map((container) => <ContainerCard key={container.uuid} {...{ uuid: container.uuid, marking: container.marking, type: container.type, cargo: container.cargo, weight: container.weight }} style={commonStyles.shadow} navigation={navigation} />)
             ) : (
-                <ActivityIndicator size="large" color="#212529" />
+                !containers && <Spinner />
             )}
         </ScrollView >
     );
@@ -51,7 +52,7 @@ export default function ContainersListScreen({ navigation }) {
 const styles = StyleSheet.create({
     scrollViewContent: {
         flexGrow: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'stretch',
         padding: 10,
         gap: 10,

@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     containers: [],
-    container: undefined
+    container: undefined,
+    searchText: '',
 };
 
 export const containerSlice = createSlice({
@@ -17,6 +18,9 @@ export const containerSlice = createSlice({
             console.log('setContainer', payload);
             state.container = payload;
         },
+        setSearch: (state, { payload }) => {
+            state.searchText = payload
+        },
         resetContainer: (state) => {
             console.log('resetContainer');
             state.container = undefined;
@@ -26,4 +30,4 @@ export const containerSlice = createSlice({
 
 export const containerReducer = containerSlice.reducer;
 
-export const { setContainers, setContainer, resetContainer } = containerSlice.actions;
+export const { setContainers, setContainer, setSearch, resetContainer } = containerSlice.actions;
