@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, Image, Button, TouchableOpacity } from 'react-native';
-import { useState, useEffect, React } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { useState, React } from 'react';
 import { imageBaseURL } from '../api'
 
 const placeholder = require(`../assets/placeholder.jpg`)
@@ -31,12 +31,12 @@ export default function ContainerCard({ navigation, ...props }) {
                 <Text style={styles.text}>Вес: {props.weight} кг</Text>
             </View>
             {/* <Button title='View details' onPress={handlePress} color='#460ba5' style={styles.border} /> */}
-            <TouchableOpacity
+            {navigation && <TouchableOpacity
                 style={[styles.button, styles.border]}
                 onPress={handlePress}
             >
                 <Text style={{ color: 'white', fontSize: 16 }}>Подробнее</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>}
         </View>
     );
 }
@@ -73,9 +73,7 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
     },
     imageWrapper: {
-        // backgroundColor: 'white',
         overflow: 'hidden',
-        // height: 200,
         aspectRatio: 16 / 9,
         margin: 0,
     },

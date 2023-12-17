@@ -6,7 +6,7 @@ const apiPort = '8080'
 const imagesPort = '9000'
 export const imageBaseURL = `http://${ip}:${imagesPort}/images`
 
-export const axiosAPI = axios.create({ baseURL: `http://${ip}:${apiPort}/api`, timeout: 500 });
+export const axiosAPI = axios.create({ baseURL: `http://${ip}:${apiPort}/api`, timeout: 1000 });
 
 export async function getAllContainers(filter) {
     let url = '/containers'

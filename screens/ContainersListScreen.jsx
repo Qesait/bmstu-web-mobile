@@ -18,9 +18,9 @@ export default function ContainersListScreen({ navigation }) {
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContent} style={styles.page}>
             {containers && containers.length > 0 ? (
-                containers.map((container) => <ContainerCard key={container.uuid} {...{ marking: container.marking, type: container.type, cargo: container.cargo, weight: container.weight}} navigation={navigation} />)
+                containers.map((container) => <ContainerCard key={container.uuid} {...{ uuid: container.uuid, marking: container.marking, type: container.type, cargo: container.cargo, weight: container.weight }} navigation={navigation} />)
             ) : (
-            <ActivityIndicator size="large" color="#ffffff" />
+                <ActivityIndicator size="large" color="#212529" />
             )}
         </ScrollView >
     );
