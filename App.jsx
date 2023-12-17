@@ -11,7 +11,11 @@ export default function App() {
     return (
         <Provider store={store}>
             <NavigationContainer>
-                <Stack.Navigator>
+                <Stack.Navigator screenOptions={{
+                    contentStyle: {
+                        backgroundColor: '#FFFFFF'
+                    }
+                }}>
                     <Stack.Screen
                         name='ContainersList'
                         component={ContainersListScreen}

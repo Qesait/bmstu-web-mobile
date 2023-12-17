@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useState, React } from 'react';
 import { imageBaseURL } from '../api'
+import { commonStyles } from '../styles/common'
 
 const placeholder = require(`../assets/placeholder.jpg`)
 
@@ -12,8 +13,8 @@ export default function ContainerCard({ navigation, ...props }) {
     };
 
     return (
-        <View padding='0' style={[styles.card, styles.shadow, styles.border]}>
-            <View style={[styles.imageWrapper, styles.border]}>
+        <View padding='0' style={[styles.card,commonStyles.rounded, commonStyles.shadow]}>
+            <View style={[styles.imageWrapper, commonStyles.rounded]}>
                 <Image
                     style={styles.image}
                     source={src}
@@ -22,17 +23,17 @@ export default function ContainerCard({ navigation, ...props }) {
                 />
             </View>
             <View style={styles.container}>
-                <Text style={styles.title}>{props.marking}</Text>
-                <Text style={styles.text}>Тип: {props.type}</Text>
-                {!!props.length && <Text style={styles.text}>Длина: {props.length}</Text>}
-                {!!props.height && <Text style={styles.text}>Высота: {props.height}</Text>}
-                {!!props.width && <Text style={styles.text}>Ширина: {props.width}</Text>}
-                <Text style={styles.text}>Груз: {props.cargo}</Text>
-                <Text style={styles.text}>Вес: {props.weight} кг</Text>
+                <Text style={[commonStyles.title, commonStyles.centerText]}>{props.marking}</Text>
+                <Text style={[commonStyles.text, commonStyles.centerText]}>Тип: {props.type}</Text>
+                {!!props.length && <Text style={[commonStyles.text, commonStyles.centerText]}>Длина: {props.length}</Text>}
+                {!!props.height && <Text style={[commonStyles.text, commonStyles.centerText]}>Высота: {props.height}</Text>}
+                {!!props.width && <Text style={[commonStyles.text, commonStyles.centerText]}>Ширина: {props.width}</Text>}
+                <Text style={[commonStyles.text, commonStyles.centerText]}>Груз: {props.cargo}</Text>
+                <Text style={[commonStyles.text, commonStyles.centerText]}>Вес: {props.weight} кг</Text>
             </View>
             {/* <Button title='View details' onPress={handlePress} color='#460ba5' style={styles.border} /> */}
             {navigation && <TouchableOpacity
-                style={[styles.button, styles.border]}
+                style={[styles.button, commonStyles.rounded]}
                 onPress={handlePress}
             >
                 <Text style={{ color: 'white', fontSize: 16 }}>Подробнее</Text>
@@ -52,11 +53,7 @@ const styles = StyleSheet.create({
         paddingVertical: 0,
         overflow: 'hidden',
         gap: 10,
-        margin: 10,
         // flexGrow: 1,
-    },
-    border: {
-        borderRadius: 6,
     },
     shadow: {
         shadowColor: '#4133B7',
@@ -82,17 +79,6 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingHorizontal: 4,
         gap: 6,
-    },
-    title: {
-        color: '#212529',
-        fontSize: 20,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    text: {
-        color: '#212529',
-        fontSize: 16,
-        textAlign: 'center',
     },
     button: {
         backgroundColor: '#520dc2',

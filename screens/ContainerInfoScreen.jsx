@@ -1,16 +1,21 @@
-import { View, Text, ActivityIndicator, StyleSheet, Image } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { resetContainer, setContainer } from '../store/containerSlice';
 import { getContainer, imageBaseURL } from '../api';
+import { commonStyles } from '../styles/common'
 
 const placeholder = require(`../assets/placeholder.jpg`)
 
-export default function DeviceScreen({ route }) {
+export default function DeviceScreen({ navigation, route }) {
     const { uuid } = route.params;
     const dispatch = useDispatch();
     const { container } = useSelector((store) => store.container);
     const [src, setSrc] = useState({ uri: `${imageBaseURL}/${uuid}.jpg` });
+
+    // const handlePress = () => {
+    //     navigation.navigate('ContainersList');
+    // };
 
     useEffect(() => {
         getContainer(uuid).then(data => {
@@ -26,22 +31,32 @@ export default function DeviceScreen({ route }) {
     return (
         <View style={styles.ViewContent}>
             {container ? (
-                <View padding='0' style={[styles.card, styles.shadow, styles.border]}>
-                    <View style={[styles.imageWrapper, styles.border]}>
-                        <Image
-                            style={styles.image}
-                            source={src}
-                            onError={() => setSrc(placeholder)}
-                        />
-                    </View>
-                    <View style={styles.container}>
-                        <Text style={styles.title}>{container.marking}</Text>
-                        <Text style={styles.text}>Тип: {container.type}</Text>
-                        <Text style={styles.text}>Длина: {container.length}</Text>
-                        <Text style={styles.text}>Высота: {container.height}</Text>
-                        <Text style={styles.text}>Ширина: {container.width}</Text>
-                        <Text style={styles.text}>Груз: {container.cargo}</Text>
-                        <Text style={styles.text}>Вес: {container.weight} кг</Text>
+                <View>
+                    {/* <View style={{ flexDirection: 'row', paddingBottom: 10 }}>
+                        <TouchableOpacity
+                            onPress={handlePress}
+                        >
+                            <Text style={styles.text}>Контейнеры</Text>
+                        </TouchableOpacity>
+                        <Text style={styles.text}> / {container.marking}</Text>
+                    </View> */}
+                    <View style={[styles.card, commonStyles.shadow, commonStyles.rounded]}>
+                        <View style={[styles.imageWrapper, commonStyles.rounded]}>
+                            <Image
+                                style={styles.image}
+                                source={src}
+                                onError={() => setSrc(placeholder)}
+                            />
+                        </View>
+                        <View style={styles.container}>
+                            <Text style={[commonStyles.title, commonStyles.centerText]}>{container.marking}</Text>
+                            <Text style={[commonStyles.text, commonStyles.centerText]}>Тип: {container.type}</Text>
+                            <Text style={[commonStyles.text, commonStyles.centerText]}>Длина: {container.length}</Text>
+                            <Text style={[commonStyles.text, commonStyles.centerText]}>Высота: {container.height}</Text>
+                            <Text style={[commonStyles.text, commonStyles.centerText]}>Ширина: {container.width}</Text>
+                            <Text style={[commonStyles.text, commonStyles.centerText]}>Груз: {container.cargo}</Text>
+                            <Text style={[commonStyles.text, commonStyles.centerText]}>Вес: {container.weight} кг</Text>
+                        </View>
                     </View>
                 </View>
             ) : (
@@ -57,6 +72,7 @@ const styles = StyleSheet.create({
     ViewContent: {
         flexGrow: 1,
         alignItems: 'stretch',
+        padding: 10,
     },
     ActivityWrapper: {
         flexGrow: 1,
@@ -73,20 +89,7 @@ const styles = StyleSheet.create({
         paddingTop: 0,
         overflow: 'hidden',
         gap: 14,
-        margin: 10,
         paddingBottom: 10,
-    },
-    border: {
-        borderRadius: 6,
-    },
-    shadow: {
-        shadowColor: '#4133B7',
-        shadowOffset: { width: 0, height: 30 },
-        shadowOpacity: 0.25,
-        shadowRadius: 30,
-        elevation: 10,
-        padding: 10,
-        borderRadius: 10,
     },
     image: {
         flex: 1,
@@ -104,16 +107,5 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         paddingHorizontal: 4,
         gap: 6,
-    },
-    title: {
-        color: '#212529',
-        fontSize: 20,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    text: {
-        color: '#212529',
-        fontSize: 16,
-        textAlign: 'center',
     },
 });
