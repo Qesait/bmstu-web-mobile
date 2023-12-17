@@ -5,6 +5,8 @@ import ContainerInfoScreen from './screens/ContainerInfoScreen';
 import { store } from './store';
 import { Provider } from 'react-redux';
 
+global.Buffer = require('buffer').Buffer;
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
