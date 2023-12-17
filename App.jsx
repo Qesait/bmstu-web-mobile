@@ -15,12 +15,24 @@ export default function App() {
                     <Stack.Screen
                         name='ContainersList'
                         component={ContainersListScreen}
-                        options={{ title: 'Список контейнеров' }}
+                        options={{
+                            title: 'Список контейнеров',
+                            headerStyle: {
+                                backgroundColor: '#212529',
+                            },
+                            headerTintColor: '#c7c8c9',
+                        }}
                     />
                     <Stack.Screen
                         name='ContainerInfo'
                         component={ContainerInfoScreen}
-                        options={({ route }) => ({ title: route.params.marking || 'Информация о контейнере' })}
+                        options={({ route }) => ({
+                            title: route.params.marking || 'Информация о контейнере',
+                            headerStyle: {
+                                backgroundColor: '#212529',
+                            },
+                            headerTintColor: '#c7c8c9',
+                        })}
                     />
                 </Stack.Navigator>
             </NavigationContainer>

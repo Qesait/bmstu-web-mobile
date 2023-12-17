@@ -14,14 +14,13 @@ export default function ContainersListScreen({ navigation }) {
             dispatch(setContainers(data?.containers))
         })
     }, [dispatch]);
-    console.log(!!containers && containers.length > 0)
 
     return (
-        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <ScrollView contentContainerStyle={styles.scrollViewContent} style={styles.page}>
             {containers && containers.length > 0 ? (
-                containers.map((container) => <ContainerCard key={container.uuid} {...container} navigation={navigation} />)
+                containers.map((container) => <ContainerCard key={container.uuid} {...{ marking: container.marking, type: container.type, cargo: container.cargo, weight: container.weight}} navigation={navigation} />)
             ) : (
-                <ActivityIndicator size="large" color="#ffffff" />
+            <ActivityIndicator size="large" color="#ffffff" />
             )}
         </ScrollView >
     );
@@ -31,14 +30,12 @@ const styles = StyleSheet.create({
     scrollViewContent: {
         flexGrow: 1,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'stretch',
+        padding: 0,
     },
     page: {
-        display: 'flex',
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#2a2a2a',
+        backgroundColor: '#ffffff',
+        padding: 8,
     },
 });
 
