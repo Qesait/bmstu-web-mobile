@@ -1,14 +1,12 @@
-import { View, Text, ActivityIndicator, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { resetContainer, setContainer } from '../store/containerSlice';
-import { getContainer, imageBaseURL } from '../api';
+import { getContainer, imagePlaceholder, imageBaseURL } from '../api';
 import { commonStyles } from '../styles/common'
 import Spinner from '../components/Spinner';
 
-const placeholder = require(`../assets/placeholder.jpg`)
-
-export default function DeviceScreen({ navigation, route }) {
+export default function ContainerInfoScreen({ navigation, route }) {
     const { uuid } = route.params;
     const dispatch = useDispatch();
     const { container } = useSelector((store) => store.container);
@@ -20,10 +18,8 @@ export default function DeviceScreen({ navigation, route }) {
 
     useEffect(() => {
         getContainer(uuid).then(data => {
-            console.log(data)
             dispatch(setContainer(data))
         })
-        console.log(container)
 
         return () => {
             dispatch(resetContainer());
@@ -46,7 +42,7 @@ export default function DeviceScreen({ navigation, route }) {
                             <Image
                                 style={styles.image}
                                 source={src}
-                                onError={() => setSrc(placeholder)}
+                                onError={() => setSrc(imagePlaceholder)}
                             />
                         </View>
                         <View style={styles.container}>

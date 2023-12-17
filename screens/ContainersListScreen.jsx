@@ -1,6 +1,6 @@
-import { ScrollView, StyleSheet, View, ActivityIndicator, TextInput, TouchableOpacity, Text } from 'react-native';
+import { ScrollView, StyleSheet, View, TextInput, TouchableOpacity, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { getAllContainers } from '../api';
 import { setContainers, setSearch } from '../store/containerSlice';
 import ContainerCard from '../components/ContainerCard';
@@ -20,7 +20,6 @@ export default function ContainersListScreen({ navigation }) {
 
     const handleSearch = () => {
         getAllContainers(searchText).then(data => {
-            console.log(data.containers.length)
             dispatch(setContainers(data?.containers))
         })
     };

@@ -1,36 +1,24 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useState, React, useEffect } from 'react';
-import { imageBaseURL } from '../api'
+import { axiosImage, imagePlaceholder } from '../api'
 import { commonStyles } from '../styles/common'
-import axios from 'axios';
-
-const placeholder = require(`../assets/placeholder.jpg`)
 
 export default function ContainerCard({ navigation, ...props }) {
     // const [src, setSrc] = useState({ uri: `${imageBaseURL}/${props.uuid}.jpg` });
     // const [src, setSrc] = useState(placeholder);
-    const [src, setSrc] = useState(placeholder);
+    const [src, setSrc] = useState(imagePlaceholder);
 
     const handlePress = () => {
         navigation.navigate('ContainerInfo', { uuid: props.uuid, marking: props.marking });
     };
 
     useEffect(() => {
-        const loadImage = async () => {
-            try {
-                const response = await axios.get(`${imageBaseURL}/${props.uuid}.jpg`, {
-                    responseType: 'arraybuffer',
-                });
-                console.log(props.marking, `${imageBaseURL}/${props.uuid}.jpg`)
-
+        axiosImage.get(`${props.uuid}.jpg`, { responseType: 'arraybuffer' })
+            .then((response) => {
                 const base64 = `data:image/jpeg;base64,${Buffer.from(response.data, 'binary').toString('base64')}`;
                 setSrc({ uri: base64 });
-            } catch (error) {
-                console.error('Error loading image:', error);
-            }
-        };
-
-        loadImage();
+            })
+            .catch(error => console.log('Error loading image:', error))
     }, []);
 
     return (
