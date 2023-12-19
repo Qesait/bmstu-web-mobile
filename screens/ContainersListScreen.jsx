@@ -40,7 +40,7 @@ export default function ContainersListScreen({ navigation }) {
                 </TouchableOpacity>
             </View>
             {containers && containers.length > 0 ? (
-                containers.map((container) => <ContainerCard key={container.uuid} {...{ uuid: container.uuid, marking: container.marking, type: container.type, cargo: container.cargo, weight: container.weight }} style={commonStyles.shadow} navigation={navigation} />)
+                containers.map((container) => <ContainerCard key={container.uuid} {...container} style={commonStyles.shadow} navigation={navigation} />)
             ) : (
                 !containers && <Spinner />
             )}

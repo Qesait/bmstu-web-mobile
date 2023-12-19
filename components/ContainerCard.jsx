@@ -1,11 +1,9 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useState, React, useEffect } from 'react';
-import { axiosImage, imagePlaceholder } from '../api'
+import { axiosImage, imagePlaceholder, ReplaceIP } from '../api'
 import { commonStyles } from '../styles/common'
 
 export default function ContainerCard({ navigation, ...props }) {
-    // const [src, setSrc] = useState({ uri: `${imageBaseURL}/${props.uuid}.jpg` });
-    // const [src, setSrc] = useState(placeholder);
     const [src, setSrc] = useState(imagePlaceholder);
 
     const handlePress = () => {
@@ -13,7 +11,10 @@ export default function ContainerCard({ navigation, ...props }) {
     };
 
     useEffect(() => {
-        axiosImage.get(`${props.uuid}.jpg`, { responseType: 'arraybuffer' })
+        if (!props.image_url) {
+            return
+        }
+        axiosImage.get(ReplaceIP(props.image_url), { responseType: 'arraybuffer' })
             .then((response) => {
                 const base64 = `data:image/jpeg;base64,${Buffer.from(response.data, 'binary').toString('base64')}`;
                 setSrc({ uri: base64 });
@@ -27,20 +28,15 @@ export default function ContainerCard({ navigation, ...props }) {
                 <Image
                     style={styles.image}
                     source={src}
-                    // defaultSource={placeholder} // ignored in dev build
-                    onError={() => setSrc(placeholder)}
+                    onError={() => setSrc(imagePlaceholder)}
                 />
             </View>
             <View style={styles.container}>
                 <Text style={[commonStyles.title, commonStyles.centerText]}>{props.marking}</Text>
                 <Text style={[commonStyles.text, commonStyles.centerText]}>Тип: {props.type}</Text>
-                {!!props.length && <Text style={[commonStyles.text, commonStyles.centerText]}>Длина: {props.length}</Text>}
-                {!!props.height && <Text style={[commonStyles.text, commonStyles.centerText]}>Высота: {props.height}</Text>}
-                {!!props.width && <Text style={[commonStyles.text, commonStyles.centerText]}>Ширина: {props.width}</Text>}
                 <Text style={[commonStyles.text, commonStyles.centerText]}>Груз: {props.cargo}</Text>
                 <Text style={[commonStyles.text, commonStyles.centerText]}>Вес: {props.weight} кг</Text>
             </View>
-            {/* <Button title='View details' onPress={handlePress} color='#460ba5' style={styles.border} /> */}
             {navigation && <TouchableOpacity
                 style={[styles.button, commonStyles.rounded]}
                 onPress={handlePress}

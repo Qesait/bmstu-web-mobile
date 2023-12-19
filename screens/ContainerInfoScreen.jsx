@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { resetContainer, setContainer } from '../store/containerSlice';
-import { getContainer, imagePlaceholder, imageBaseURL } from '../api';
+import { getContainer, imagePlaceholder, ReplaceIP } from '../api';
 import { commonStyles } from '../styles/common'
 import Spinner from '../components/Spinner';
 
@@ -10,16 +10,20 @@ export default function ContainerInfoScreen({ navigation, route }) {
     const { uuid } = route.params;
     const dispatch = useDispatch();
     const { container } = useSelector((store) => store.container);
-    const [src, setSrc] = useState({ uri: `${imageBaseURL}/${uuid}.jpg` });
+    const [src, setSrc] = useState(imagePlaceholder);
 
     // const handlePress = () => {
     //     navigation.navigate('ContainersList');
     // };
 
     useEffect(() => {
-        getContainer(uuid).then(data => {
-            dispatch(setContainer(data))
-        })
+        getContainer(uuid)
+            .then(data => {
+                dispatch(setContainer(data))
+                if (data.image_url) {
+                    setSrc({ uri: ReplaceIP(data.image_url) })
+                }
+            })
 
         return () => {
             dispatch(resetContainer());

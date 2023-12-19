@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { containers, draft_transportation } from './MockData';
 
-const ip = '192.168.1.13'
+const ip = '192.168.1.9'
 const apiPort = '8080'
 const imagesPort = '9000'
 export const imageBaseURL = `http://${ip}:${imagesPort}/images`
@@ -39,4 +39,14 @@ export async function getContainer(containerId) {
     return axiosAPI.get(url)
         .then(response => response.data)
         .catch(_ => containers.get(containerId))
+}
+
+export function ReplaceIP(oldURL) {
+    if (!oldURL) {
+        return ''
+    }
+    console.log(oldURL.replace("localhost", ip))
+    let updatedURL = oldURL.replace("localhost", ip);
+    console.log(oldURL, "->", updatedURL, ip)
+    return updatedURL;
 }
